@@ -94,7 +94,6 @@ def get_estado_info(sigla: str):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     
-    # Nova Query que cruza a base original com os setores do IBGE
     query = """
     SELECT 
         (SELECT COUNT(l.ogc_fid) FROM localidades l JOIN uf u ON l.cd_uf = u.cd_uf WHERE u.sigla_uf = %s) as total_localidades,
@@ -125,7 +124,6 @@ def buscar_localidade(termo: str):
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # A Mágica do PostGIS: Spatial JOIN entre o ponto da localidade e o polígono do IBGE
     query = """
     SELECT json_build_object(
         'type', 'FeatureCollection',
